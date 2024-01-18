@@ -36,8 +36,8 @@ public class SumThread extends Thread {
             }
 
             sum = Optional.of(node.getValue() +
-                    (leftThread == null ? 0 : leftThread.sum.get())
-                    + (rightThread == null ? 0 : rightThread.sum.get()));
+                    (leftThread == null ? node.getLeft().map(Node::sum).orElse(0) : leftThread.sum.get())
+                    + (rightThread == null ? node.getRight().map(Node::sum).orElse(0) : rightThread.sum.get()));
         }
         // TODO Exercise 5
     }
@@ -46,11 +46,11 @@ public class SumThread extends Thread {
         var leftTC = leftThreadCount();
         var rightTC = node.getRight().isEmpty() ? 0 : (remainingThreads - 1) - leftTC;
 
-        if (node.getLeft().isPresent()) {
+        if (node.getLeft().isPresent() && leftTC > 0) {
             leftThread = new SumThread(node.getLeft().get(), leftTC);
             leftThread.start();
         }
-        if (node.getRight().isPresent()) {
+        if (node.getRight().isPresent() && rightTC > 0) {
             rightThread = new SumThread(node.getRight().get(), rightTC);
             rightThread.start();
         }
