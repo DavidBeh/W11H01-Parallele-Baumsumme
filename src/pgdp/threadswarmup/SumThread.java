@@ -25,7 +25,7 @@ public class SumThread extends Thread {
     }
 
     public void run() {
-        if (remainingThreads == 0) sum = Optional.of(node.sum());
+        if (remainingThreads < 2) sum = Optional.of(node.sum());
         else {
             startChildThreads();
             try {
@@ -44,7 +44,7 @@ public class SumThread extends Thread {
 
     protected void startChildThreads() {
         var leftTC = leftThreadCount();
-        var rightTC = node.getRight().isEmpty() ? 0 : remainingThreads - leftTC;
+        var rightTC = node.getRight().isEmpty() ? 0 : (remainingThreads - 1) - leftTC;
 
         if (node.getLeft().isPresent()) {
             leftThread = new SumThread(node.getLeft().get(), leftTC);
@@ -58,8 +58,8 @@ public class SumThread extends Thread {
 
     protected int leftThreadCount() {
         return node.getLeft().isEmpty() ? 0
-                : node.getRight().isEmpty() ? remainingThreads
-                : remainingThreads / 2;
+                : node.getRight().isEmpty() ? (remainingThreads - 1)
+                : (remainingThreads - 1) / 2;
 
 
     }
