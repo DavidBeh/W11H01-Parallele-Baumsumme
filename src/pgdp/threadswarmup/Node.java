@@ -42,8 +42,7 @@ class Node {
     // You will also need it when you want to stop creating
     // further threads.
     public int sum() {
-        // TODO Exercise 1
-        return -1;
+        return value + left.map(Node::sum).orElse(0) + right.map(Node::sum).orElse(0);
     }
 
     public int sumWithThreads(int numberOfThreads) {

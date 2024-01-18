@@ -12,18 +12,20 @@ public class Main {
         // Lower numbers will make it easier keep track of what is happening.
         // You can modify the random seed inside the generateTreeWithRandomValues method,
         // to get the same tree every time you run the program.
-        Node root = generateTreeWithRandomValues(1000);
+        Node root = generateTreeWithRandomValues(10000000);
 
         // Time the sequential sum
         long start = System.currentTimeMillis();
-        System.out.println("Sum: " + root.sum());
+        var seqSum = root.sum();
         long end = System.currentTimeMillis();
+        System.out.println("Sum: " + seqSum);
         System.out.println("Sequential sum took " + (end - start) + "ms");
 
         // Time the parallel sum
         start = System.currentTimeMillis();
-        System.out.println("Sum with threads found: " + root.sumWithThreads(1));
+        var parSum = root.sumWithThreads(11);
         end = System.currentTimeMillis();
+        System.out.println("Sum with threads found: " +parSum);
         System.out.println("Parallel sum took " + (end - start) + "ms");
     }
 
